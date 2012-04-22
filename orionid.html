@@ -1,0 +1,106 @@
+<head>
+  <title>orionid</title>
+</head>
+
+<body>
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="#">Orionid</a>
+        <form class="navbar-form pull-right" action="#">
+          {{> userLoginForm}}
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="container" style="padding-top: 60px;">
+    <div class="row">
+      <div class="span3">
+        <div class="well sidebar-nav">
+          {{> userView}}
+          <hr>
+          {{> chatroomsList}}
+        </div>
+      </div>
+      <div class="span9">
+        {{> chatroomView}}
+      </div>
+    </div>
+  </div>
+</body>
+
+<template name="userView">
+  <ul class="nav nav-list">
+    <li class="nav-header">Current User</li>
+    {{#each users}}
+      <li>{{> user}}</li>
+    {{/each}}
+</template>
+
+<template name="userLoginForm">
+  <input type="text" class="span2" placeholder="Username">
+  <input type="password" class="span2" placeholder="Password">
+  <button id="login-button" class="btn btn-primary">Login</button>
+</template>
+
+<template name="chatroomView">
+  {{#if selectedChatroom}}
+    {{#with selectedChatroom}}
+      <div class="content">
+        <div class="page-header">
+          <h1>
+            {{name}}
+            <br>
+            <small>
+              {{#each users}}
+                @{{> user}}
+              {{/each}}
+            </small>
+          </h1>
+        </div>
+      </div>
+      {{#if messages}}
+        {{#each messages}}
+          {{> message}}
+        {{/each}}
+      {{else}}
+        <div style="padding-bottom:20px;">
+          <strong>No messages to display.</strong>
+        </div>
+      {{/if}}
+    {{/with}}
+    <input type="text" />
+    <input type="button" value="Submit" />
+  {{else}}
+    <div class="content">
+      <div class="page-header">
+        <h1>No Chatroom Selected</h1>
+      </div>
+    </div>
+  {{/if}}
+</template>
+
+<template name="chatroomsList">
+  <ul class="nav nav-list">
+    <li class="nav-header">Chatrooms</li>
+    {{#each chatrooms}}
+      {{> chatroom}}
+    {{/each}}
+  </ul>
+</template>
+
+<template name="chatroom">
+  <li {{#if active}}class="active"{{/if}}>
+    <a id="chatroom-enter" href="#">{{name}}</a>
+  </li>
+</template>
+
+<template name="message">
+  <div style="padding-bottom:20px;">
+    <strong>{{user}}:</strong> {{body}}
+  </p>
+</template>
+
+<template name="user">
+  {{name}}
+</template>
